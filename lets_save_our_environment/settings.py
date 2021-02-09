@@ -25,7 +25,7 @@ SECRET_KEY = 'jkub#c!_#d!0oghyjdy6uso3-5ym4j0)rr4)daxyyupj5)bm!0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['lets-save-our-environment.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','lets-save-our-environment.herokuapp.com']
 
 
 # Application definition
@@ -128,8 +128,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
@@ -140,3 +138,7 @@ LOGIN_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/home/static/',
+]

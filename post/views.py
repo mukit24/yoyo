@@ -8,9 +8,8 @@ from django.contrib.auth.decorators import login_required
 def post_view(request):
     post_form = PostForm()
     post_list = Post.objects.all().order_by('-created_on')
-    # post = Post.objects.first()
-    # for x in post.image.all():
-    #     print(x.image.url)
+    for x in post_list:
+        print(x.id)
     if request.method == 'POST':
         try:
             temp = request.user.volunteer

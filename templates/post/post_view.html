@@ -43,6 +43,15 @@
                             {{post.created_on.date}}</i></small></h5>
                 <p style="font-size: large;padding-left: 25px;">{{post.body}}</p>
                 {% if post.image %}
+                {% if post.id == 31 %}
+                <button style="border:none;padding: 0;" type="button" data-toggle="modal" data-target="#image_modal{{pic.id}}">
+                    <div style="height: 200px;width: 200px;">
+                        <img id="myImg" src="{% static 'images/img1.jpg'%}" alt="image" style="width: 100%;
+                    height: 100%;
+                    object-fit: cover;">
+                </div>
+                </button>
+                {% else %}
                 <button style="border:none;padding: 0;" type="button" data-toggle="modal" data-target="#image_modal{{pic.id}}">
                     <div style="height: 200px;width: 200px;">
                         <img id="myImg" src="{{post.image.url}}" alt="image" style="width: 100%;
@@ -50,6 +59,7 @@
                     object-fit: cover;">
                 </div>
                 </button>
+                {% endif %}
                 <div class="modal fade" id="image_modal{{pic.id}}">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
