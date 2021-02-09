@@ -31,7 +31,7 @@
         <hr class="bg-light">
         {% if c_profile %}
         <div class="text-center">
-            <h3><span class="badge badge-danger">Contributer Profile</span></h3>
+            <h3><span class="badge badge-danger">Contributor Profile</span></h3>
         </div>
         <div class="text-center">
             <img src="{{c_profile.profile_picture.url}}" style="object-fit: cover;" height="100px" width="100px" />
@@ -42,7 +42,7 @@
             <h6>{{c_profile.facebook}}</h6>
             <h6>{{c_profile.about_me}}</h6>
             <h5>Contribution: <span class="badge badge-danger">{{c_profile.total_money}} Taka</span></h5>
-            <h5><span class="badge badge-warning">Rank #{{ c_profile.user|con_rank }} Contributer</span></h5>
+            <h5><span class="badge badge-warning">Rank #{{ c_profile.user|con_rank }} Contributor</span></h5>
         </div>
         {% else %}
         {% endif %}
