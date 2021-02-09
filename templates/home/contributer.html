@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div style="background-color:whitesmoke;">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center p-2">
+                <h3 style="border-bottom: 1px red solid;"><span class="badge badge-danger">Top Contributers</span></h3>
+                <input class="form-control my-1" style="border: 1px red solid" id="myInput2" type="text" placeholder="Search In The Contributer Table...">
+                <table class="table table-danger table-hover">
+                    <thead>
+                      <tr>
+                        <th>User Name</th>
+                        <th>Contribution</th>
+                      </tr>
+                    </thead>
+                    <tbody id="myTable2">
+                        {% for con in con_list %}
+                        <tr style="font-weight: 600;">
+                                <td>{{forloop.counter}}. <a href="{% url 'profile_view' con.user.id %}">{{con.user}}</a></td>
+                            <td>{{con.total_money}} BDT</td>
+                          </tr>
+                  {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+{% endblock %}

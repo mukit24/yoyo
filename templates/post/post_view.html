@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% load custom_tag %}
+<script>
+    $(document).ready(function(){
+        window.location = '#post{{anchor}}'
+    });
+    </script>
+<div class="post_list" id="post_list" style="background-color: lightgray;">
+    <div class="p-2" style="border-bottom: 1px solid gray;">
+        <div class="container">
+            <div class="text-center">
+                <h3><span class="badge badge-primary">Create Your Post</span></h3>
+            </div>
+            <form action="{% url 'post_view' %}" method="POST" class="write_post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group mb-0">
+                    {{post_form.body}}
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group badge badge-dark mb-0">
+                            <label style="font-weight: 600;">Add Image: </label>
+                            {{ post_form.image }}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" style="font-weight: 600;" class="btn btn-dark btn-sm mt-2">Post</button>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="text-center">
+            <h3><span class="badge badge-success">All Posts</span></h3>
+        </div>
+        {% for post in posts %}
+        <div class="media pb-3" id="post{{post.id}}">
+            <img src="{{post.author.profile_picture.url}}" class="mr-3 rounded-circle " style="width:50px;">
+            <div class="media-body" style="color: black;font-weight: 600;">
+                <h5 style="color: brown;font-weight: 700;"><a style="text-decoration: none;" href="{% url 'profile_view' post.author.user.id %}">{{post.author}}</a><small style="color: rgb(126, 54, 54);"><i>
+                            Posted on
+                            {{post.created_on.date}}</i></small></h5>
+                <p style="font-size: large;padding-left: 25px;">{{post.body}}</p>
+                {% if post.image %}
+                <button style="border:none;padding: 0;" type="button" data-toggle="modal" data-target="#image_modal{{pic.id}}">
+                    <div style="height: 200px;width: 200px;">
+                        <img id="myImg" src="{{post.image.url}}" alt="image" style="width: 100%;
+                    height: 100%;
+                    object-fit: cover;">
+                </div>
+                </button>
+                <div class="modal fade" id="image_modal{{pic.id}}">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+    
+                            <div class="modal-body">
+                                <img src="{{post.image.url}}" alt="image" style="width: 100%;
+                        height: 100%;
+                        object-fit: cover;">
+                            </div>
+    
+                            <div class="modal-footer">
+                                <button class="btn btn-success"><a class="text-light" href="{{post.image.url}}" download>Download</a></button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <br>
+                {% if post.react.all|react_check:request.user %}
+                <a href="{% url 'react' post.id %}"><button type="button" class="btn btn-light py-0" style="font-weight: 600;"><i class="fa fa-heart text-danger" style="font-size: large;"></i> <span
+                    class="badge badge-dark">{{post.react.all.count}}</span></button></a>
+                {% else %}
+                <a href="{% url 'react' post.id %}"><button type="button" class="btn btn-light py-0" style="font-weight: 600;"><i class="fa fa-heart-o" style="font-size: large;"></i> <span
+                    class="badge badge-dark">{{post.react.all.count}}</span></button></a>
+                {% endif %}
+                
+                <a href="{% url 'post_details' post.id %}"><button type="button" class="btn btn-success btn-sm py-0" style="font-weight: 600;">Comments <span
+                    class="badge badge-light">{{post.comment_set.all.count}}</span></button></a>
+                {% if post.author == request.user.volunteer %}
+                <a href="{% url 'post_details' post.id %}"><button type="button" class="btn btn-dark btn-sm py-0" style="font-weight: 600;">Edit</button></a>
+                <form action="{% url 'delete_post' post.id %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm py-0" style="font-weight: 600;">Delete</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        {% if posts.has_other_pages %}
+        <ul class="pagination justify-content-center">
+            {% if posts.has_previous %}
+            <li class="page-item"><a class="page-link bg-secondary text-light"
+                    href="?page={{ posts.previous_page_number }}#post_list">Previous</a></li>
+            {% endif %}
+            {% for i in posts.paginator.page_range %}
+            {% if posts.number == i %}
+            <li class="page-item active"><a class="page-link" href="?page={{ i }}#post_list">{{i}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link bg-dark text-light" href="?page={{ i }}#post_list">{{i}}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+            <li class="page-item"><a class="page-link bg-secondary text-light"
+                    href="?page={{ posts.next_page_number }}#post_list">Next</a></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+        <br>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="bg-secondary text-light">
+    <div class="container p-3">
+        <div class="text-center">
+            <h3><span class="badge badge-danger m-1">Edit Contributer Profile</span></h3>
+        </div>
+        <form action="{% url 'update_c_profile' request.user.contributer.id %}" method="POST" enctype="multipart/form-data" style="font-weight: 500;">
+            {% csrf_token %}
+            {{form}}
+            <br>
+            <input type="submit" value="Submit" class="btn btn-danger">
+        </form>
+    </div>
+</div>
+{% endblock %}

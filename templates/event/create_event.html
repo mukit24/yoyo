@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="event_view" style="background-color: lightgrey;">
+    <div class="container">
+        <div class="text-center">
+            <h3><span class="badge badge-primary">Create Your Event</span></h3>
+        </div>
+        <form action="{% url 'create_event' %}" method="POST" style="font-weight: 600;padding: 20px;">
+            {% csrf_token %}
+            {{form}}
+            <br>
+            <input class="btn btn-success btn-sm" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div style="background-color:whitesmoke;">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center p-2">
+                <h3 style="border-bottom: 1px green solid;"><span class="badge badge-success">Points Table</span></h3>
+                <input class="form-control my-1" style="border: 1px green solid" id="myInput1" type="text" placeholder="Search In The Point Table...">
+                <table class="table table-success table-hover">
+                    <thead>
+                      <tr>
+                        <th>User Name</th>
+                        <th>Points</th>
+                      </tr>
+                    </thead>
+                    <tbody id="myTable1">
+                        {% for vol in vol_list %}
+                            <tr style="font-weight: 600;">
+                                    <td>{{forloop.counter}}. <a href="{% url 'profile_view' vol.user.id %}">{{vol.user}}</a></td>
+                                <td>{{vol.total_points}}</td>
+                              </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="jumbotron jumbotron-fluid mb-0">
+    <div class="container text-center">
+        {% if request.user.volunteer or request.user.contributer or not request.user.is_authenticated %}
+          {% else %}
+          <div class="toast bg-warning" data-autohide="false">
+            <div class="toast-header">
+              <strong class="mr-auto text-primary">Create Profile</strong>
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+            </div>
+            <div class="toast-body" style="font-weight: 600;">
+              You have not created your profile yet..Please Create Your Profile First..<a href="{% url 'im_profile' %}">Click Here</a>
+            </div>
+          </div>
+          {% endif %}
+      <h3>Welcome Everyone</h3>
+      <p style="font-weight: 500;">Let's save our environment is an online platform that is responsible for serving some great services to our environment.For the details information click on the below button</p>
+      <a href="{% url 'about' %}" class="btn btn-primary btn-sm">About Us</a>
+    </div>
+</div>
+<div style="background-color:whitesmoke;">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center p-2">
+                <h4 style="border-bottom: 1px green solid;"><span class="badge badge-success">Points Table</span></h4>
+                <table class="table table-success table-hover">
+                    <thead>
+                      <tr>
+                        <th>Volunteer</th>
+                        <th>Points</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for vol in vol_list %}
+                            <tr style="font-weight: 600;">
+                                    <td>{{forloop.counter}}. <a href="{% url 'profile_view' vol.user.id %}">{{vol.user}}</a></td>
+                                <td>{{vol.total_points}}</td>
+                              </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  <h6>To see the full list <a href="{% url 'point_table' %}">click here</a></h6>
+            </div>
+            <div class="col text-center p-2">
+                <h4 style="border-bottom: 1px red solid;"><span class="badge badge-danger">Top Contributers</span></h4>
+                <table class="table table-danger table-hover">
+                    <thead>
+                      <tr>
+                        <th>Contributer</th>
+                        <th>Contribution</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for con in con_list %}
+                        <tr style="font-weight: 600;">
+                                <td>{{forloop.counter}}. <a href="{% url 'profile_view' con.user.id %}">{{con.user}}</a></td>
+                            <td>{{con.total_money}} Taka</td>
+                          </tr>
+                  {% endfor %}
+                    </tbody>
+                  </table>
+                  <h6>To see the full list <a href="{% url 'con_table' %}">click here</a></h6>
+            </div>
+        </div>
+        <hr style="background-color: black;font-weight: 700;">
+        <div class="text-center p-1">
+            <h3><span class="badge badge-primary">Posts</span></h3>
+            <div class="row">
+            {% for post in post_list %}  
+              <div class="col-lg-3 col-md-4 p-1 ">
+                <div class="card h-100">
+                  {% if post.image %}
+                  <div style="height: 180px;">
+                    <img class="card-img-top" src="{{post.image.url}}" alt="Card image" style="width: 100%;
+                    height: 100%;
+                    object-fit: cover;">
+                  </div>
+                  {% endif %}
+                  <div class="card-body" style="background-color: lightgray;">
+                    <h5 class="card-title">{{post.author}}</h5>
+                    {% if post.image %}
+                    <p class="card-text">{{post.body|slice:":40"}}.....</p>
+                    {% else %}
+                    <p class="card-text">{{post.body|slice:":100"}}....</p>
+                    {% endif %}
+                    <a href="{% url 'post_details' post.id %}" class="btn btn-info btn-sm py-0">Post Details</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+            <div class="text-center">
+              <a href="{% url 'post_view' %}" class="btn btn-primary btn-sm" style="font-weight: 600;">Go to Post Section</a>
+            </div>  
+        </div>
+        <hr style="background-color: black;font-weight: 700;">
+        <div class="text-center p-1">
+          <h3><span class="badge badge-success">Upcoming Events</span></h3>
+          <div class="row">
+            {% for event in events %}  
+              <div class="col-lg-3 col-md-4 p-1 ">
+                <div class="card h-100 bg-dark text-white">
+                  <div class="card-body text-center">
+                      <h5><strong>{{event.headline}}</strong></h5>
+                      <h6>Start: <span class="text-warning">{{event.start_date}}</span></h6>
+                      <h6>End: <span class="text-warning">{{event.end_date}}</span></h6>
+                      <h6>Event By: <a href="{% url 'profile_view' event.volunteer.user.id %}">{{event.volunteer}}</a></h6>
+                      <h6>Target Amount: <span class="btn btn-primary btn-sm p-0" style="font-weight: 600;">{{event.target_amount}}</span> Taka</h6>
+                      <h6>Present Amount: <span class="btn btn-success btn-sm p-0" style="font-weight: 600;">{{event.present_amount}}</span> Taka</h6>
+                      <form action="{% url 'event_details' event.id %}">
+                          <input type="submit" value="Contribute/Details" class="btn btn-danger py-0" style="font-weight: 600;">
+                      </form>
+                  </div>
+              </div>
+              </div>
+            {% endfor %}
+          </div>
+            <div class="text-center">
+              <a href="{% url 'event_view' %}" class="btn btn-success btn-sm" style="font-weight: 600;">Go to Event Section</a>
+            </div>  
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

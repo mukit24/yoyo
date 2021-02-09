@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="event_view" style="background-color: lightgrey;">
+    <div class="container">
+        <div class="text-center">
+            <h3><span class="badge badge-success">Upcoming Events</span></h3>
+        </div>
+        <hr>
+        <div class="row pb-3">
+            {% for event in events %}
+                <div class="col-lg-3 col-md-4 mb-2">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body text-center">
+                            <h5><strong>{{event.headline}}</strong></h5>
+                            <h6>Start: <span class="text-warning">{{event.start_date}}</span></h6>
+                            <h6>End: <span class="text-warning">{{event.end_date}}</span></h6>
+                            <h6>Event By: <a href="{% url 'profile_view' event.volunteer.user.id %}">{{event.volunteer}}</a></h6>
+                            <h6>Target Amount: <span class="btn btn-primary btn-sm p-0" style="font-weight: 600;">{{event.target_amount}}</span> Taka</h6>
+                            <h6>Present Amount: <span class="btn btn-success btn-sm p-0" style="font-weight: 600;">{{event.present_amount}}</span> Taka</h6>
+                            <form action="{% url 'event_details' event.id %}">
+                                <input type="submit" value="Contribute/Details" class="btn btn-danger py-0" style="font-weight: 600;">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-center">
+                <h3><span class="badge badge-warning">Previous Events</span></h3>
+            </div>
+        <hr>
+        <div class="row pb-3">
+        {% for event in past %}
+        <div class="col-lg-3 col-md-4 mb-2">
+            <div class="card bg-dark h-100 text-white">
+                <div class="card-body text-center">
+                    <h5><strong>{{event.headline}}</strong></h5>
+                    <h6>Start: <span class="text-warning">{{event.start_date}}</span></h6>
+                            <h6>End: <span class="text-warning">{{event.end_date}}</span></h6>
+                    <h6>Event By: <a href="{% url 'profile_view' event.volunteer.user.id %}">{{event.volunteer}}</a></h6>
+                    <h6>Target Amount: <span class="btn btn-primary btn-sm p-0" style="font-weight: 600;">{{event.target_amount}}</span> Taka</h6>
+                    <h6>Present Amount: <span class="btn btn-success btn-sm p-0" style="font-weight: 600;">{{event.present_amount}}</span> Taka</h6>
+                    <form action="{% url 'event_details' event.id %}">
+                        <input type="submit" value="Details" class="btn btn-danger py-0" style="font-weight: 600;">
+                    </form>
+                </div>
+            </div>
+        </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

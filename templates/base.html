@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lets Save Our Environment</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-bottom: 1px grey solid;">
+        <a class="navbar-brand" style="font-weight: 600;" href="{% url 'home_view' %}">Let's Save Our Environment</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav m-auto">
+            {% with request.resolver_match.url_name as url_name %}
+            <li class="{% if url_name == 'home_view' %}nav-item active{% endif %}">
+              <a class="nav-link" href="{% url 'home_view' %}" style="font-weight: 500;">Home</a>
+            </li>
+            <li class="{% if url_name == 'post_view' %}nav-item active{% endif %}">
+              <a class="nav-link" href="{% url 'post_view' %}" style="font-weight: 500;">Posts</a>
+            </li>
+            <li class="{% if url_name == 'event_view' %}nav-item active{% endif %}">
+              <a class="nav-link" href="{% url 'event_view' %}" style="font-weight: 500;">Events</a>
+            </li>
+            {% endwith %}
+            {% if request.user.is_authenticated %}
+                <li class="nav-item ">
+                    <a class="nav-link" style="color:green;font-weight: 500;"
+                        href="{% url 'profile' request.user.id %}">{{request.user}}</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" style="color:firebrick;font-weight: 500;"
+                        href="{% url 'account_logout' %}">Logout</a>
+                </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_signup' %}" style="font-weight: 500;">Registration/Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+    {% block content %}{% endblock %}
+</body>
+<script>
+  $(document).ready(function(){
+    $('.toast').toast('show');
+  });
+
+  $(document).ready(function(){
+  $("#myInput1").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable1 tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+$(document).ready(function(){
+  $("#myInput2").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable2 tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+  </script>
+</html>

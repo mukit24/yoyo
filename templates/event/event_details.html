@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="event_details" style="background-color: lightgray;">
+    <div class="container">
+        <div class="text-center">
+            <h3><span class="badge badge-success">Event Details</span></h3>
+        </div>
+        <h4 style="text-align: center;font-weight: 700;">{{event.headline}}</h4>
+        <hr>
+        <h5 style="font-weight: 600;">Description: <span style="color: rgb(57, 60, 63);">{{event.description}}</span> </h5>
+        <h5 style="font-weight: 600;">Start: <span class="badge badge-warning">{{event.start_date}}</span></h5>
+                            <h5 style="font-weight: 600;">End: <span class="badge badge-warning">{{event.end_date}}</span></h5>
+                            <h5 style="font-weight: 600;">Event By: <a href="{% url 'profile_view' event.volunteer.user.id %}">{{event.volunteer}}</a></h5>
+        <h5><span style="font-weight: 600;">Targeted Amount:</span> <span class="badge badge-primary" style="font-size: large;">{{event.target_amount}}</span></h5>
+        <h5><span style="font-weight: 600;">Present Amount:</span> <span class="badge badge-success" style="font-size: large;">{{event.present_amount}}</span></h5>
+
+        <form class="form-inline" action="{% url 'add_money' event.id %}" method="POST">
+            {% csrf_token %}
+            <input type="number" name="amount" placeholder="Enter Amount" class="form-control">
+            <input type="submit" value="Send Money" class="btn btn-secondary">
+        </form> 
+        <div class="text-center">
+            <h3><span class="badge badge-danger">Contributers</span></h3>
+        </div>
+        
+        <div style="overflow-y: auto;">
+            <table class="table table-dark table-hover">
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>Amount</th>
+                    <th>Date & Time</th>
+                  </tr>
+                </thead>
+                <tbody style="font-weight: 600;">
+                  {% for contributer in contributers %}
+                  <tr>
+                    <td>{{contributer.contributer}}</td>
+                    <td>{{contributer.amount}}</td>
+                    <td>{{contributer.created_on}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

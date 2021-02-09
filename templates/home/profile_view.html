@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% load custom_tag %}
+<div class="bg-dark text-light">
+    <div class="container p-2">
+        {% if v_profile %}
+        <div class="text-center">
+            <h3><span class="badge badge-primary">Volunteer Profile</span></h3>
+        </div>
+        <div class="text-center">
+            {% if v_profile.profile_picture.url %}
+            <img src="{{v_profile.profile_picture.url}}" style="object-fit: cover;" height="100px" width="100px" />
+            {% else %}
+            <img src="" alt="No Profile Picture">
+            {% endif %}
+            <h5>Full Name: <span style="font-weight: 800;" class="text-success">{{v_profile.full_name}}</span></h5>
+            <h6>{{v_profile.profession}}</h6>
+            <h6>{{v_profile.address}}</h6>
+            <h6>{{v_profile.mobile}}</h6>
+            <h6>{{v_profile.facebook}}</h6>
+            <h6>{{v_profile.about_me}}</h6>
+            <h5>Points: <span class="badge badge-primary">{{v_profile.total_points}}</span></h5>
+            <h5><span class="badge badge-warning">Rank #{{ v_profile.user|vol_rank }} Volunteer</span></h5>
+            {% if v_profile.user|silver_badge %}
+            <h4><span class="badge badge-secondary"><i class="fa fa-font-awesome" style="font-size: 25px;color: silver;"></i> Silver Badge</span></h4>
+            {% endif %}
+        </div>
+        {% else %}
+        {% endif %}
+        <hr class="bg-light">
+        {% if c_profile %}
+        <div class="text-center">
+            <h3><span class="badge badge-danger">Contributer Profile</span></h3>
+        </div>
+        <div class="text-center">
+            <img src="{{c_profile.profile_picture.url}}" style="object-fit: cover;" height="100px" width="100px" />
+            <h5>Full Name: <span style="font-weight: 800;" class="text-success">{{c_profile.full_name}}</span></h5>
+            <h6>{{c_profile.profession}}</h6>
+            <h6>{{c_profile.address}}</h6>
+            <h6>{{c_profile.mobile}}</h6>
+            <h6>{{c_profile.facebook}}</h6>
+            <h6>{{c_profile.about_me}}</h6>
+            <h5>Contribution: <span class="badge badge-danger">{{c_profile.total_money}} Taka</span></h5>
+            <h5><span class="badge badge-warning">Rank #{{ c_profile.user|con_rank }} Contributer</span></h5>
+        </div>
+        {% else %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
